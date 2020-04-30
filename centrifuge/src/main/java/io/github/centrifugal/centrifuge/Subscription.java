@@ -5,7 +5,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-import io.github.centrifugal.centrifuge.internal.protocol.Protocol;
+import io.github.centrifugal.centrifuge.internal.proto.Protocol;
 import java8.util.concurrent.CompletableFuture;
 
 public class Subscription {
@@ -121,9 +121,6 @@ public class Subscription {
             cb.onFailure(e);
             return null;
         });
-        if (this.state == SubscriptionState.SUBSCRIBED) {
-            f.complete(null);
-        }
     }
 
     public void history(ReplyCallback<HistoryResult> cb) {
@@ -146,9 +143,6 @@ public class Subscription {
             cb.onFailure(e);
             return null;
         });
-        if (this.state == SubscriptionState.SUBSCRIBED) {
-            f.complete(null);
-        }
     }
 
     public void presence(ReplyCallback<PresenceResult> cb) {
@@ -171,9 +165,6 @@ public class Subscription {
             cb.onFailure(e);
             return null;
         });
-        if (this.state == SubscriptionState.SUBSCRIBED) {
-            f.complete(null);
-        }
     }
 
     public void presenceStats(ReplyCallback<PresenceStatsResult> cb) {
@@ -196,8 +187,5 @@ public class Subscription {
             cb.onFailure(e);
             return null;
         });
-        if (this.state == SubscriptionState.SUBSCRIBED) {
-            f.complete(null);
-        }
     }
 }

@@ -14,7 +14,7 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 
 import io.github.centrifugal.centrifuge.internal.backoff.Backoff;
-import io.github.centrifugal.centrifuge.internal.protocol.Protocol;
+import io.github.centrifugal.centrifuge.internal.proto.Protocol;
 
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
@@ -131,7 +131,15 @@ public class Client {
         if (this.ws != null) {
             this.ws.cancel();
         }
-        this.ws = (new OkHttpClient()).newWebSocket(request, new WebSocketListener() {
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
+        if(opts.getCertificatePinner()!=null){
+            clientBuilder.certificatePinner(opts.getCertificatePinner());
+        }
+        // Setup client certificates
+        if (opts.getSslContext() != null && opts.getTrustManager() != null) {
+            clientBuilder.sslSocketFactory(opts.getSslContext().getSocketFactory(), opts.getTrustManager());
+        }
+        this.ws = (clientBuilder.build()).newWebSocket(request, new WebSocketListener() {
             @Override
             public void onOpen(WebSocket webSocket, Response response) {
                 super.onOpen(webSocket, response);
@@ -869,7 +877,7 @@ public class Client {
     void history(String channel, ReplyCallback<HistoryResult> cb) {
         this.executor.submit(() -> Client.this.historySynchronized(channel, cb));
     }
-    
+
     private void historySynchronized(String channel, ReplyCallback<HistoryResult> cb) {
         Protocol.HistoryRequest req = Protocol.HistoryRequest.newBuilder()
                 .setChannel(channel)

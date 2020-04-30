@@ -1,6 +1,6 @@
 package io.github.centrifugal.centrifuge;
 
-import io.github.centrifugal.centrifuge.internal.protocol.Protocol;
+import io.github.centrifugal.centrifuge.internal.proto.Protocol;
 
 public class ClientInfo {
     private String user;
