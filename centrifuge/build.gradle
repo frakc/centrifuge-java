@@ -18,7 +18,7 @@ uploadArchives {
                 authentication (userName: 'deployer', password: 'chuw*HAIS8kal')
             }
 
-            pom.version  = '0.0.2'
+            pom.version  = '0.0.3'
             pom.artifactId = 'centrifuge-java'
             pom.groupId = 'alty.centrifugal'
         }
